@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đang chuyển hướng...</title>
+  <style>
+    :root {
+      --primary-color: #6EBF8B;       /* Xanh bạc hà pastel */
+      --primary-hover: #5BA876;
+      --bg-color: #FAF9F6;            /* Nền kem pastel dịu mắt */
+      --text-color: #4A5568;          /* Chữ xám đậm thanh lịch */
+      --card-bg: #FFFFFF;
+      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* CARD CHUYỂN HƯỚNG */
+    .redirect-card {
+      background: var(--card-bg);
+      padding: 32px 24px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid #E2E8F0;
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* LOGO RESPONSIVE */
+    .brand-logo {
+      max-width: 100%;
+      height: auto;
+      max-height: 85px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.04));
+    }
+
+    /* VÒNG XOAY SPINNER PASTEL */
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid #E2E8F0;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 18px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      color: #2D3748;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #718096;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* NÚT BẤM DỰ PHÒNG PASTEL */
+    .btn {
+      padding: 12px 24px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-block;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 12px rgba(110, 191, 139, 0.3);
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="redirect-card">
+    <img src="https://imagedelivery.net/nzJTxrggzVnghtgKsvv9RA/0bbf4baf-bfe5-4a03-f323-8b5ceb4c1200/product" alt="Logo V Juice" class="brand-logo">
+
+    <div class="spinner"></div>
+    <h2>Đang kết nối tới ứng dụng...</h2>
+    <p>Nếu trang không tự động chuyển trong vài giây, vui lòng bấm nút bên dưới:</p>
+    
+    <a id="app-link" href="https://script.google.com/macros/s/AKfycbzJyrfsocEWwcz_rZaowuWy5xkTSUUZDd5gRgpRCepBHebvJbB8qIXDDZy6E9ffLn6T/exec?page=nhanvien" class="btn">Mở ứng dụng ngay</a>
+  </div>
+
+  <script>
+    // 1. Dán đường dẫn Web App của bạn vào đây
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzJyrfsocEWwcz_rZaowuWy5xkTSUUZDd5gRgpRCepBHebvJbB8qIXDDZy6E9ffLn6T/exec?page=nhanvien";
+
+    // 2. Tự động thêm tham số authuser=0 để giảm lỗi xác thực trên Safari
+    const targetUrl = GAS_URL + (GAS_URL.includes('?') ? '&' : '?') + "authuser=0";
+
+    // Cập nhật thẻ <a> dự phòng
+    document.getElementById("app-link").href = targetUrl;
+
+    // 3. Thực hiện chuyển hướng toàn màn hình (Cực kỳ quan trọng đối với Safari)
+    window.location.replace(targetUrl);
+  </script>
+
+</body>
+</html>
