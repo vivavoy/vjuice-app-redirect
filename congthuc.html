@@ -111,28 +111,56 @@
 </head>
 <body>
 
-  <div class="redirect-card">
+  <div class="redirect-card" id="password-gate">
+    <img src="https://imagedelivery.net/nzJTxrggzVnghtgKsvv9RA/0bbf4baf-bfe5-4a03-f323-8b5ceb4c1200/product" alt="Logo V Juice" class="brand-logo">
+
+    <h2>Yêu cầu xác thực</h2>
+    <p>Vui lòng nhập mật khẩu để tiếp tục:</p>
+    <input type="password" id="password-input" placeholder="Mật khẩu" style="width:100%; padding:12px; border:1px solid #E2E8F0; border-radius:10px; margin-bottom:16px; font-size:0.95rem; text-align:center;">
+    <button id="password-submit" class="btn" style="width:100%; border:none; cursor:pointer;">Xác nhận</button>
+    <p id="password-error" style="color:#E53E3E; font-size:0.85rem; margin-top:12px; display:none;">Sai mật khẩu, vui lòng thử lại!</p>
+  </div>
+
+  <div class="redirect-card" id="redirect-card" style="display:none;">
     <img src="https://imagedelivery.net/nzJTxrggzVnghtgKsvv9RA/0bbf4baf-bfe5-4a03-f323-8b5ceb4c1200/product" alt="Logo V Juice" class="brand-logo">
 
     <div class="spinner"></div>
     <h2>Đang kết nối tới ứng dụng...</h2>
     <p>Nếu trang không tự động chuyển trong vài giây, vui lòng bấm nút bên dưới:</p>
     
-    <a id="app-link" href="https://script.google.com/macros/s/AKfycbwsWxwdGbXflpXy-RFh9vnh1OE-O31gVqWvo6IgMo3rk8ZGtso6fvvDAjwtcVniRL2Ebg/exec?page=congthuc" class="btn">Mở ứng dụng ngay</a>
+    <a id="app-link" href="https://script.google.com/macros/s/AKfycbzhaFm0rpO92qGrD8-SfTSRG2rzC3uY-0Cy0Ds9xzweAAxtN78rQxLyf2Xe9DmGd1zp9w/exec?page=congthuc" class="btn">Mở ứng dụng ngay</a>
   </div>
 
   <script>
-    // 1. Dán đường dẫn Web App của bạn vào đây
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwsWxwdGbXflpXy-RFh9vnh1OE-O31gVqWvo6IgMo3rk8ZGtso6fvvDAjwtcVniRL2Ebg/exec?page=congthuc";
+    // Mật khẩu truy cập trang này (đổi giá trị này để thay mật khẩu)
+    const PAGE_PASSWORD = "vjuice2026";
 
-    // 2. Tự động thêm tham số authuser=0 để giảm lỗi xác thực trên Safari
-    const targetUrl = GAS_URL + (GAS_URL.includes('?') ? '&' : '?') + "authuser=0";
+    // Dán đường dẫn Web App của bạn vào đây
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzhaFm0rpO92qGrD8-SfTSRG2rzC3uY-0Cy0Ds9xzweAAxtN78rQxLyf2Xe9DmGd1zp9w/exec?page=congthuc";
 
-    // Cập nhật thẻ <a> dự phòng
-    document.getElementById("app-link").href = targetUrl;
+    function redirectToApp() {
+      // Tự động thêm tham số authuser=0 để giảm lỗi xác thực trên Safari
+      const targetUrl = GAS_URL + (GAS_URL.includes('?') ? '&' : '?') + "authuser=0";
+      document.getElementById("app-link").href = targetUrl;
+      document.getElementById("password-gate").style.display = "none";
+      document.getElementById("redirect-card").style.display = "flex";
+      // Thực hiện chuyển hướng toàn màn hình (Cực kỳ quan trọng đối với Safari)
+      window.location.replace(targetUrl);
+    }
 
-    // 3. Thực hiện chuyển hướng toàn màn hình (Cực kỳ quan trọng đối với Safari)
-    window.location.replace(targetUrl);
+    function checkPassword() {
+      const value = document.getElementById("password-input").value;
+      if (value === PAGE_PASSWORD) {
+        redirectToApp();
+      } else {
+        document.getElementById("password-error").style.display = "block";
+      }
+    }
+
+    document.getElementById("password-submit").addEventListener("click", checkPassword);
+    document.getElementById("password-input").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") checkPassword();
+    });
   </script>
 
 </body>
